@@ -23,6 +23,33 @@ export const register = async (req, res) => {
   }
 };
 
-export const login = (req, res) => {
-  res.send('Login');
+export const login = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    const userFound = await User.findOne({ email });
+    if (!userFound) {
+      return res.status(400).json({ message: 'Invalid Credentials' });
+    }
+    const isMatch = await bcryptjs.compare(password, userFound.password);
+    if (!isMatch) {
+      return res.status(400).json({ message: 'Invalid Credentials' });
+    }
+    const user = {
+      id: userFound._id,
+      username: userFound.username,
+      email: userFound.email,
+      createdAt: userFound.createdAt,
+      updatedAt: userFound.updatedAt,
+    };
+    const token = await createAccessToken({ id: userFound._id });
+    res.cookie('access_token', token);
+    res.status(200).json({ message: 'User logged in', user, token });
+  } catch (error) {
+    res.status(500).json({ message: 'Not logged in', error: error.message });
+  }
+};
+
+export const logout = (req, res) => {
+  res.cookie('access_token', '', { maxAge: 0 });
+  res.status(200).json({ message: 'User logged out' });
 };
