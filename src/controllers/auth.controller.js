@@ -53,3 +53,17 @@ export const logout = (req, res) => {
   res.cookie('access_token', '', { maxAge: 0 });
   res.status(200).json({ message: 'User logged out' });
 };
+
+export const profile = async (req, res) => {
+  const userFound = await User.findById(req.user.id);
+  if (!userFound) {
+    return res.status(404).json({ message: 'User not found' });
+  }
+  return res.json({
+    id: userFound._id,
+    username: userFound.username,
+    email: userFound.email,
+    createdAt: userFound.createdAt,
+    updatedAt: userFound.updatedAt,
+  });
+};
