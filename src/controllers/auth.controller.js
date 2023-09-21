@@ -5,6 +5,10 @@ import User from '../models/user.model.js';
 export const register = async (req, res) => {
   try {
     const { username, email, password } = req.body;
+    const userFound = await User.findOne({ email });
+    if (userFound) {
+      return res.status(400).json({ message: 'User email already exists' });
+    }
     const hashedPassword = await bcryptjs.hash(password, 10);
     const newUser = new User({ username, email, password: hashedPassword });
     const userSaved = await newUser.save();
