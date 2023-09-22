@@ -8,7 +8,7 @@ export const register = async (req, res) => {
     const userFound = await User.findOne({ email });
     if (userFound) {
       // return res.status(400).json({ message: 'User email already exists' });
-      return res.status(400).json(['User email already exists']);
+      return res.status(400).json(['Este email ya existe']);
     }
     const hashedPassword = await bcryptjs.hash(password, 10);
     const newUser = new User({ username, email, password: hashedPassword });
@@ -33,11 +33,11 @@ export const login = async (req, res) => {
     const { email, password } = req.body;
     const userFound = await User.findOne({ email });
     if (!userFound) {
-      return res.status(400).json({ message: 'Invalid Credentials' });
+      return res.status(400).json(['Invalid credentials']);
     }
     const isMatch = await bcryptjs.compare(password, userFound.password);
     if (!isMatch) {
-      return res.status(400).json({ message: 'Invalid Credentials' });
+      return res.status(400).json(['Invalid credentials']);
     }
     const user = {
       id: userFound._id,
@@ -62,7 +62,7 @@ export const logout = (req, res) => {
 export const profile = async (req, res) => {
   const userFound = await User.findById(req.user.id);
   if (!userFound) {
-    return res.status(404).json({ message: 'User not found' });
+    return res.status(404).json({ message: 'User no encontrado' });
   }
   return res.json({
     id: userFound._id,

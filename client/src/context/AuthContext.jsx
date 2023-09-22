@@ -1,7 +1,7 @@
 /* eslint-disable react-refresh/only-export-components */
 /* eslint-disable react/prop-types */
-import { createContext, useContext, useState } from 'react';
-import { registerRequest } from '../api/auth';
+import { createContext, useContext, useEffect, useState } from 'react';
+import { loginRequest, registerRequest } from '../api/auth';
 
 export const AuthContext = createContext();
 
@@ -23,6 +23,7 @@ export const AuthProvider = ({ children }) => {
       // console.log(res.data);
       setUser(res.data);
       setIsAuthenticated(true);
+      setErrors([]);
     } catch (error) {
       console.log(error.response.data);
       setErrors(error.response.data);
@@ -30,8 +31,32 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const signin = async (user) => {
+    try {
+      const res = await loginRequest(user);
+      setUser(res.data);
+      setIsAuthenticated(true);
+      setErrors([]);
+    } catch (error) {
+      console.log(error.response.data);
+      setErrors(error.response.data);
+      // console.log(errors);
+    }
+  };
+
+  useEffect(() => {
+    if (errors.length > 0) {
+      const timer = setTimeout(() => {
+        setErrors([]);
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [errors]);
+
   return (
-    <AuthContext.Provider value={{ signup, user, isAuthenticated, errors }}>
+    <AuthContext.Provider
+      value={{ signup, signin, user, isAuthenticated, errors }}
+    >
       {children}
     </AuthContext.Provider>
   );
