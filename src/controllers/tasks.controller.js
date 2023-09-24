@@ -3,7 +3,7 @@ import Task from '../models/task.model.js';
 export const getTasks = async (req, res) => {
   const tasks = await Task.find({ user: req.user.id }).populate({
     path: 'user',
-    select: 'username email -_id',
+    select: 'id, username email', // -_id
   });
   res.json(tasks);
 };
@@ -17,6 +17,7 @@ export const getTask = async (req, res) => {
   try {
     const { id } = req.params;
     const task = await Task.findById(id).populate('user', [
+      'id',
       'username',
       'email',
     ]);
