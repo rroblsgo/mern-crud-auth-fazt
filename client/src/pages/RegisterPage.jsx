@@ -10,18 +10,18 @@ function RegisterPage() {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const { signup, user, isAuthenticated, errors: RegisterErrors } = useAuth();
+  const { signup, user, isAuthenticated, errors: registerErrors } = useAuth();
   const navigate = useNavigate();
   console.log(user);
 
   useEffect(() => {
     if (isAuthenticated) {
       navigate('/tasks');
+      window.location.href = '/tasks';
     }
   }, [isAuthenticated]);
 
   const myHandleSubmit = handleSubmit(async (values) => {
-    console.log(values);
     signup(values);
   });
 
@@ -29,8 +29,8 @@ function RegisterPage() {
     <div className="flex h-[calc(100vh-100px)] items-center justify-center">
       <div className="bg-zinc-700 max-w-md p-10 w-full rounded-md m-10">
         <h1 className="text-2xl font-bold mb-2">Register</h1>
-        {RegisterErrors &&
-          RegisterErrors.map((error, i) => (
+        {registerErrors &&
+          registerErrors.map((error, i) => (
             <p className="bg-red-500 rounded-md p-2 mb-2 text-white" key={i}>
               {error}
             </p>

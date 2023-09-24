@@ -3,6 +3,7 @@ import { AuthProvider } from './context/AuthContext';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 // import TasksList from './pages/TasksList';
+import Navbar from './components/Navbar';
 import { TaskProvider } from './context/TaskContext';
 import HomePage from './pages/HomePage';
 import ProfilePage from './pages/ProfilePage';
@@ -15,6 +16,7 @@ function App() {
     <AuthProvider>
       <TaskProvider>
         <BrowserRouter>
+          <Navbar />
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/login" element={<LoginPage />} />

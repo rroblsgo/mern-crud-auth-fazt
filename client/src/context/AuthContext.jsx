@@ -32,14 +32,14 @@ export const AuthProvider = ({ children }) => {
   const signup = async (user) => {
     try {
       const res = await registerRequest(user);
-      if (res.status === 200) {
-        setUser(res.data);
-        setIsAuthenticated(true);
-        setErrors([]);
-      }
+      // if (res.status === 200) {
+      // }
+      setUser(res.data);
+      setIsAuthenticated(true);
+      setErrors([]);
     } catch (error) {
       console.log(error.response.data);
-      setErrors(error.response.data.message);
+      setErrors(error.response.data);
     }
   };
 
@@ -50,9 +50,15 @@ export const AuthProvider = ({ children }) => {
       setIsAuthenticated(true);
       setErrors([]);
     } catch (error) {
-      console.log(error);
-      //setErrors(error.response.data.message);
+      console.log('errores de login: ', error.response.data);
+      setErrors(error.response.data);
     }
+  };
+
+  const logout = async () => {
+    Cookies.remove('access_token');
+    setIsAuthenticated(false);
+    setUser(null);
   };
 
   useEffect(() => {
@@ -85,7 +91,7 @@ export const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ signup, signin, loading, user, isAuthenticated, errors }}
+      value={{ signup, signin, logout, loading, user, isAuthenticated, errors }}
     >
       {children}
     </AuthContext.Provider>
