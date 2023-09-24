@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect } from 'react';
+import TaskCard from '../components/TaskCard';
 import { useTasks } from '../context/TaskContext';
 
 function TasksPage() {
@@ -14,12 +15,9 @@ function TasksPage() {
   }
 
   return (
-    <div>
+    <div className="grid grid-cols-3 gap-2">
       {tasks.map((task) => (
-        <div key={task._id}>
-          <h1>{task.title}</h1>
-          <p>{task.description}</p>
-        </div>
+        <TaskCard key={task._id} task={task} />
       ))}
     </div>
   );

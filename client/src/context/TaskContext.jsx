@@ -1,7 +1,11 @@
 /* eslint-disable react-refresh/only-export-components */
 /* eslint-disable react/prop-types */
 import { createContext, useContext, useState } from 'react';
-import { createTaskRequest, getTasksRequest } from '../api/tasks';
+import {
+  createTaskRequest,
+  deleteTaskRequest,
+  getTasksRequest,
+} from '../api/tasks';
 
 export const TaskContext = createContext();
 
@@ -30,8 +34,17 @@ export function TaskProvider({ children }) {
     console.log('res: ', res);
   };
 
+  const deleteTask = async (id) => {
+    try {
+      const res = await deleteTaskRequest(id);
+      if (res.status === 204) setTasks(tasks.filter((task) => task._id !== id));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
-    <TaskContext.Provider value={{ tasks, createTask, getTasks }}>
+    <TaskContext.Provider value={{ tasks, createTask, getTasks, deleteTask }}>
       {children}
     </TaskContext.Provider>
   );

@@ -12,7 +12,7 @@ function LoginPage() {
   } = useForm();
   const { signin, user, isAuthenticated, errors: signinErrors } = useAuth();
   const navigate = useNavigate();
-  // console.log(user);
+  console.log(user);
 
   useEffect(() => {
     if (isAuthenticated) {

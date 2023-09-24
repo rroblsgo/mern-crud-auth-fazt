@@ -12,7 +12,9 @@ const Navbar = () => {
       <ul className="flex gap-x-2">
         {isAuthenticated ? (
           <>
-            <li>Welcome {user.email}</li>
+            <li>
+              Welcome <span className="text-indigo-400 px-2">{user.email}</span>
+            </li>
             <li>
               <Link
                 to="/add-task"
