@@ -1,15 +1,33 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useTasks } from '../context/TaskContext';
 
 function TaskFormPage() {
-  const { register, handleSubmit } = useForm();
-  const { tasks, createTask } = useTasks();
+  const { register, handleSubmit, setValue } = useForm();
+  const { tasks, createTask, getTask, updateTask } = useTasks();
   const navigate = useNavigate();
+  const params = useParams();
   console.log(tasks);
 
+  useEffect(() => {
+    async function loadTask() {
+      if (params.id) {
+        const task = await getTask(params.id);
+        setValue('title', task.title);
+        setValue('description', task.description);
+      }
+    }
+    loadTask();
+  }, []);
+
   const myHandleSubmit = handleSubmit((data) => {
-    createTask(data);
+    if (params.id) {
+      updateTask(params.id, data);
+    } else {
+      createTask(data);
+    }
     navigate('/tasks');
   });
 
