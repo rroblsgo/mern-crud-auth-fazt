@@ -18,13 +18,18 @@ const Navbar = () => {
             <li>
               <Link
                 to="/add-task"
-                className="bg-indigo-500 px-4 py-2 rounded-md"
+                className="bg-indigo-500 hover:bg-indigo-600 px-4 py-2 rounded-md"
               >
                 Add Task
               </Link>
             </li>
             <li>
-              <Link to="/profile">Profile</Link>
+              <Link
+                to="/profile"
+                className="bg-indigo-500  hover:bg-indigo-600 px-4 py-2 rounded-md"
+              >
+                Profile
+              </Link>
             </li>
             <li>
               <Link
@@ -32,7 +37,7 @@ const Navbar = () => {
                 onClick={() => {
                   logout();
                 }}
-                className="bg-indigo-500 px-4 py-2 rounded-md"
+                className="bg-indigo-500  hover:bg-indigo-600 px-4 py-2 rounded-md"
               >
                 Logout
               </Link>
@@ -41,14 +46,17 @@ const Navbar = () => {
         ) : (
           <>
             <li>
-              <Link to="/login" className="bg-indigo-500 px-4 py-2 rounded-md">
+              <Link
+                to="/login"
+                className="bg-indigo-500 hover:bg-indigo-600 px-4 py-2 rounded-md"
+              >
                 Login
               </Link>
             </li>
             <li>
               <Link
                 to="/register"
-                className="bg-indigo-500 px-4 py-2 rounded-md"
+                className="bg-indigo-500 hover:bg-indigo-600 px-4 py-2 rounded-md"
               >
                 Register
               </Link>

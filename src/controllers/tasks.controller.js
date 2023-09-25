@@ -18,7 +18,8 @@ export const createTask = async (req, res) => {
     const savedTask = await newTask.save();
     res.status(201).json(savedTask);
   } catch (error) {
-    res.status(500).json({ message: 'Not created', error: error.message });
+    // res.status(500).json({ message: 'Not created', error: error.message });
+    res.status(500).json([error.message]);
   }
 };
 export const getTask = async (req, res) => {
